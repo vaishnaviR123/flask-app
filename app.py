@@ -1,24 +1,15 @@
-from flask import Flask, render_template, request
+import os
+from flask import Flask, render_template
 
 app = Flask(_name_)
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def home():
-
-    result = ""
-
-    if request.method == "POST":
-
-        ph = float(request.form["ph"])
-        turbidity = float(request.form["turbidity"])
-
-        if 6.5 <= ph <= 8.5 and turbidity <= 5:
-            result = "Water is Safe to Use"
-        else:
-            result = "Warning! Water is Contaminated"
-
-    return render_template("index.html", result=result)
-
+    return render_template(
+        "index.html",
+        message="Hello from the cloud!"
+    )
 
 if _name_ == "_main_":
-    app.run()
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
